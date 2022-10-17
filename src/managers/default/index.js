@@ -285,9 +285,7 @@ class DefaultViewManager {
 			}
 
 			if(target) {
-				let offset = visible.locationOf(target);
-				let width = visible.width();
-				this.moveTo(offset, width);
+                this.moveToTarget(visible, target);
 			}
 
 			displaying.resolve();
@@ -307,9 +305,12 @@ class DefaultViewManager {
 
 				// Move to correct place within the section, if needed
 				if(target) {
-					let offset = view.locationOf(target);
-					let width = view.width();
-					this.moveTo(offset, width);
+                    this.moveToTarget(view, target);
+
+                    // Target location may change if the view is resized
+                    view.on(EVENTS.VIEWS.RESIZED, () => {
+                        this.moveToTarget(view, target);
+                    });
 				}
 
 			}.bind(this), (err) => {
@@ -341,6 +342,11 @@ class DefaultViewManager {
 	afterResized(view){
 		this.emit(EVENTS.MANAGERS.RESIZE, view.section);
 	}
+
+    moveToTarget(view, target) {
+        const offset = view.locationOf(target);
+        this.moveTo(offset, view.width());
+    }
 
 	moveTo(offset, width){
 		var distX = 0,
@@ -414,8 +420,10 @@ class DefaultViewManager {
 	prepend(section, forceRight){
 		var view = this.createView(section, forceRight);
 
-		view.on(EVENTS.VIEWS.RESIZED, (bounds) => {
-			this.counter(bounds);
+		view.on(EVENTS.VIEWS.RESIZED, () => {
+            // When going to the previous page we need to jump to its bottom
+            // this.counter() was originally used, but it jumps to some random place instead
+			this.scrollTo(0, "MAX", true);
 		});
 
 		this.views.prepend(view);
@@ -873,15 +881,26 @@ class DefaultViewManager {
 		this.scrolled = true;
 	}
 
+    /**
+    * @param {number | "MAX"} x - Scroll value in pixels, defaults to container.scrollWidth if x = "MAX"
+    * @param {number | "MAX"} y - Scroll value in pixels, defaults to container.scrollHeight if y = "MAX"
+    * @param {boolean} silent
+    */
 	scrollTo(x, y, silent){
 		if(silent) {
 			this.ignore = true;
 		}
 
 		if(!this.settings.fullsize) {
+            if (x === "MAX") x = this.container.scrollWidth;
+            if (y === "MAX") y = this.container.scrollHeight;
+
 			this.container.scrollLeft = x;
 			this.container.scrollTop = y;
 		} else {
+            if (x === "MAX") x = window.scrollWidth;
+            if (y === "MAX") y = window.scrollHeight;
+
 			window.scrollTo(x,y);
 		}
 		this.scrolled = true;

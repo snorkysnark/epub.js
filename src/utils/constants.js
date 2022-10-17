@@ -25,6 +25,7 @@ export const EVENTS = {
     SCROLL : "scroll",
     SCROLLED : "scrolled",
     REMOVED : "removed",
+    VIEW_RESIZED: "viewResized"
   },
   VIEWS : {
     AXIS: "axis",
@@ -50,7 +51,8 @@ export const EVENTS = {
     RELOCATED : "relocated",
     MARK_CLICKED : "markClicked",
     SELECTED : "selected",
-    LAYOUT: "layout"
+    LAYOUT: "layout",
+    VIEW_RESIZED: "viewResized"
   },
   LAYOUT : {
     UPDATED : "updated"

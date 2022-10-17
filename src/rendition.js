@@ -249,6 +249,9 @@ class Rendition {
 
 		// Listen for resizing
 		this.manager.on(EVENTS.MANAGERS.RESIZED, this.onResized.bind(this));
+		this.manager.on(EVENTS.MANAGERS.VIEW_RESIZED, (bounds) => {
+            this.emit(EVENTS.RENDITION.VIEW_RESIZED, bounds)
+        });
 
 		// Listen for rotation
 		this.manager.on(EVENTS.MANAGERS.ORIENTATION_CHANGE, this.onOrientationChange.bind(this));

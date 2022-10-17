@@ -237,7 +237,12 @@ class DefaultViewManager {
 	}
 
 	createView(section, forceRight) {
-		return new this.View(section, extend(this.viewSettings, { forceRight }) );
+		const view = new this.View(section, extend(this.viewSettings, { forceRight }) );
+        // External code adding overlays above the book needs to know when view is resized
+        view.on(EVENTS.VIEWS.RESIZED, (bounds) => {
+            this.emit(EVENTS.MANAGERS.VIEW_RESIZED, bounds)
+        });
+        return view;
 	}
 
 	handleNextPrePaginated(forceRight, section, action) {

@@ -7,7 +7,6 @@ import { EPUBJS_VERSION } from "./utils/constants";
 
 import IframeView from "./managers/views/iframe";
 import DefaultViewManager from "./managers/default";
-import ContinuousViewManager from "./managers/continuous";
 
 /**
  * Creates a new Book

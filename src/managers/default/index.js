@@ -260,8 +260,12 @@ class DefaultViewManager {
 		}
 	}
 
-	display(section, target){
-
+	/*
+	* @param {Section} section
+	* @param {string | number} target
+	* @param {"top" | "center"} [targetPosition]
+	*/
+	display(section, target, targetPosition = "top"){
 		var displaying = new defer();
 		var displayed = displaying.promise;
 
@@ -285,7 +289,7 @@ class DefaultViewManager {
 			}
 
 			if(target) {
-                this.moveToTarget(visible, target);
+                this.moveToTarget(visible, target, targetPosition);
 			}
 
 			displaying.resolve();
@@ -305,11 +309,11 @@ class DefaultViewManager {
 
 				// Move to correct place within the section, if needed
 				if(target) {
-                    this.moveToTarget(view, target);
+                    this.moveToTarget(view, target, targetPosition);
 
                     // Target location may change if the view is resized
                     view.on(EVENTS.VIEWS.RESIZED, () => {
-                        this.moveToTarget(view, target);
+                        this.moveToTarget(view, target, targetPosition);
                     });
 				}
 
@@ -343,8 +347,18 @@ class DefaultViewManager {
 		this.emit(EVENTS.MANAGERS.RESIZE, view.section);
 	}
 
-    moveToTarget(view, target) {
+	/*
+	* @param {View} view
+	* @param {string | number} target
+	* @param {"top" | "center"} [targetPosition]
+	*/
+    moveToTarget(view, target, targetPosition = "top") {
         const offset = view.locationOf(target);
+
+		if (targetPosition === "center") {
+			offset.top -= this.container.clientHeight / 2;
+		}
+
         this.moveTo(offset, view.width());
     }
 

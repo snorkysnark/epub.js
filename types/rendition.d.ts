@@ -83,7 +83,7 @@ export default class Rendition {
 
     direction(dir: string): void;
 
-    display(target?: string | number): Promise<void>;
+    display(target?: string | number, targetPosition?: "top" | "center"): Promise<void>;
 
     flow(flow: string): void;
 

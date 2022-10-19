@@ -300,22 +300,24 @@ class Rendition {
 	 * so it will wait until book is opened, rendering started
 	 * and all other rendering tasks have finished to be called.
 	 * @param  {string} target Url or EpubCFI
+	 * @param  {"top" | "center"} [targetPosition] whether to place target at the top or center of the screen
 	 * @return {Promise}
 	 */
-	display(target){
+	display(target, targetPosition = "top"){
 		if (this.displaying) {
 			this.displaying.resolve();
 		}
-		return this.q.enqueue(this._display, target);
+		return this.q.enqueue(this._display, target, targetPosition);
 	}
 
 	/**
 	 * Tells the manager what to display immediately
 	 * @private
 	 * @param  {string} target Url or EpubCFI
+	 * @param  {"top" | "center"} [targetPosition] whether to place target at the top or center of the screen
 	 * @return {Promise}
 	 */
-	_display(target){
+	_display(target, targetPosition = "top"){
 		if (!this.book) {
 			return;
 		}
@@ -339,7 +341,7 @@ class Rendition {
 			return displayed;
 		}
 
-		this.manager.display(section, target)
+		this.manager.display(section, target, targetPosition)
 			.then(() => {
 				displaying.resolve(section);
 				this.displaying = undefined;

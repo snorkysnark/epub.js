@@ -356,7 +356,7 @@ class DefaultViewManager {
         const offset = view.locationOf(target);
 
 		if (targetPosition === "center") {
-			offset.top -= this.container.clientHeight / 2;
+			offset.top -= this.container.clientHeight / 3;
 		}
 
         this.moveTo(offset, view.width());

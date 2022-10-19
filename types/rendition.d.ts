@@ -150,4 +150,9 @@ export default class Rendition {
 
     private afterRemoved(view: any): void;
 
+    get container(): HTMLElement;
+
+    scrollBy(x: number, y: number): void;
+
+    scrollTo(x: number | "MAX", y: number | "MAX"): void;
 }

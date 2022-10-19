@@ -1061,6 +1061,17 @@ class Rendition {
 		doc.getElementsByTagName("head")[0].appendChild(meta);
 	}
 
+	get container() {
+		return this.manager.container;
+	}
+
+	scrollBy(x, y) {
+		this.manager.scrollBy(x, y, false);
+	}
+
+	scrollTo(x, y) {
+		this.manager.scrollTo(x, y, false);
+	}
 }
 
 //-- Enable binding events to Renderer

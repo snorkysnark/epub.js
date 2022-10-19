@@ -53,9 +53,9 @@ export default class Manager {
 
   visible(): View[];
 
-  private scrollBy(x: number, y: number, silent: boolean): void;
+  scrollBy(x: number, y: number, silent: boolean): void;
 
-  private scrollTo(x: number, y: number, silent: boolean): void;
+  scrollTo(x: number | "MAX", y: number | "MAX", silent: boolean): void;
 
   private onScroll(): void;
 

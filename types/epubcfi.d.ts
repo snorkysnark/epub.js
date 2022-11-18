@@ -38,7 +38,7 @@ export default class EpubCFI {
 
     collapse(toStart?: boolean): void;
 
-    compare(cfiOne: string | EpubCFI, cfiTwo: string | EpubCFI): number;
+    static compare(cfiOne: string | EpubCFI, cfiTwo: string | EpubCFI): number;
 
     equalStep(stepA: object, stepB: object): boolean;
 
